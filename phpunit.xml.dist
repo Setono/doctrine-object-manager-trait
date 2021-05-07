@@ -7,7 +7,7 @@
         </include>
     </coverage>
     <testsuites>
-        <testsuite name="Job Status Bundle Test Suite">
+        <testsuite name="Doctrine Object Manager Trait Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
