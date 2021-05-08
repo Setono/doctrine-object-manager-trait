@@ -16,6 +16,7 @@
     },
     "require-dev": {
         "doctrine/orm": "^2.8",
+        "doctrine/mongodb-odm": "^2.2",
         "infection/infection": "^0.21.0",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.15.1",

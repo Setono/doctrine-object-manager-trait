@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Setono\DoctrineObjectManagerTrait\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Setono\DoctrineObjectManagerTrait\ManagerTrait as BaseManagerTrait;
+use Setono\DoctrineObjectManagerTrait\ManagerTrait;
 use Webmozart\Assert\Assert;
 
-trait ManagerTrait
+trait ORMManagerTrait
 {
-    use BaseManagerTrait {
-        getManager as getManagerBase;
+    use ManagerTrait {
+        getManager as _getManager;
     }
 
     protected function getManager($obj): EntityManagerInterface
     {
-        $manager = $this->getManagerBase($obj);
+        $manager = $this->_getManager($obj);
         Assert::isInstanceOf($manager, EntityManagerInterface::class);
 
         return $manager;
