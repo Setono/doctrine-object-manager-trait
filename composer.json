@@ -17,6 +17,7 @@
     "require-dev": {
         "doctrine/orm": "^2.8",
         "infection/infection": "^0.21.0",
+        "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-phpunit": "^0.15.1",
         "roave/security-advisories": "dev-latest",
