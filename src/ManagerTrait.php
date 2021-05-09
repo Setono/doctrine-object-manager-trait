@@ -20,6 +20,7 @@ trait ManagerTrait
     protected function getManager($obj): ObjectManager
     {
         $cls = is_object($obj) ? get_class($obj) : $obj;
+        Assert::string($cls);
 
         if (!isset($this->managers[$cls])) {
             $manager = $this->managerRegistry->getManagerForClass($cls);
