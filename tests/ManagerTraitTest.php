@@ -20,9 +20,9 @@ final class ManagerTraitTest extends TestCase
      */
     public function it_returns_object_manager(): void
     {
-        $manager = self::getObjectManager();
+        $manager = $this->prophesize(ObjectManager::class);
         $managerRegistry = $this->prophesize(ManagerRegistry::class);
-        $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager);
+        $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager->reveal());
 
         $managerTraitAware = new class($managerRegistry->reveal()) {
             use ManagerTrait;
@@ -38,76 +38,6 @@ final class ManagerTraitTest extends TestCase
             }
         };
 
-        self::assertSame($manager, $managerTraitAware->getManagerTest());
-    }
-
-    private static function getObjectManager(): ObjectManager
-    {
-        return new class() implements ObjectManager {
-            public function find($className, $id)
-            {
-                // TODO: Implement find() method.
-            }
-
-            public function persist($object)
-            {
-                // TODO: Implement persist() method.
-            }
-
-            public function remove($object)
-            {
-                // TODO: Implement remove() method.
-            }
-
-            public function merge($object)
-            {
-                // TODO: Implement merge() method.
-            }
-
-            public function clear($objectName = null)
-            {
-                // TODO: Implement clear() method.
-            }
-
-            public function detach($object)
-            {
-                // TODO: Implement detach() method.
-            }
-
-            public function refresh($object)
-            {
-                // TODO: Implement refresh() method.
-            }
-
-            public function flush()
-            {
-                // TODO: Implement flush() method.
-            }
-
-            public function getRepository($className)
-            {
-                // TODO: Implement getRepository() method.
-            }
-
-            public function getClassMetadata($className)
-            {
-                // TODO: Implement getClassMetadata() method.
-            }
-
-            public function getMetadataFactory()
-            {
-                // TODO: Implement getMetadataFactory() method.
-            }
-
-            public function initializeObject($obj)
-            {
-                // TODO: Implement initializeObject() method.
-            }
-
-            public function contains($object)
-            {
-                // TODO: Implement contains() method.
-            }
-        };
+        self::assertSame($manager->reveal(), $managerTraitAware->getManagerTest());
     }
 }

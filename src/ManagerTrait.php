@@ -10,6 +10,7 @@ use Webmozart\Assert\Assert;
 
 trait ManagerTrait
 {
+    /** @var array<array-key, ObjectManager> */
     private array $managers = [];
 
     private ManagerRegistry $managerRegistry;
