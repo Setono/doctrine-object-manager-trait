@@ -11,7 +11,7 @@ use Webmozart\Assert\Assert;
 trait ORMManagerTrait
 {
     use ManagerTrait {
-        getManager as _getManager;
+        getManager as private _getManager;
     }
 
     protected function getManager($obj): EntityManagerInterface
