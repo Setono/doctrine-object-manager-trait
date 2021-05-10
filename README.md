@@ -7,6 +7,51 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Mutation testing][ico-infection]][link-infection]
 
+If you are like and me and usually [don't inject entity managers directly](https://matthiasnoback.nl/2014/05/inject-the-manager-registry-instead-of-the-entity-manager/),
+but inject the manager registry instead then this little library will come in handy.
+
+## Installation
+
+```bash
+$ composer require setono/doctrine-object-manager-trait
+```
+
+## Usage
+
+```php
+<?php
+use Doctrine\Persistence\ManagerRegistry;
+use Setono\DoctrineObjectManagerTrait\ORM\ORMManagerTrait;
+
+final class YourClass
+{
+    use ORMManagerTrait;
+    
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+    
+    public function someMethod(): void
+    {
+        /**
+         * $entity is an entity managed by Doctrine or a class-string representing an entity managed by Doctrine
+         */
+        $entity = ;
+        
+        /**
+         * Because we used the ORMManagerTrait above the getManager method will return an EntityManagerInterface
+         * 
+         * @var \Doctrine\ORM\EntityManagerInterface $manager 
+         */
+        $manager = $this->getManager($entity);
+        
+        $manager->persist($entity);
+        $manager->flush();
+    }
+}
+```
+
 [ico-version]: https://poser.pugx.org/setono/doctrine-object-manager-trait/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/doctrine-object-manager-trait/v/unstable
 [ico-license]: https://poser.pugx.org/setono/doctrine-object-manager-trait/license
