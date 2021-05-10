@@ -24,20 +24,26 @@ final class ManagerTraitTest extends TestCase
         $managerRegistry = $this->prophesize(ManagerRegistry::class);
         $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager->reveal());
 
-        $managerTraitAware = new class($managerRegistry->reveal()) {
-            use ManagerTrait;
-
-            public function __construct(ManagerRegistry $managerRegistry)
-            {
-                $this->managerRegistry = $managerRegistry;
-            }
-
-            public function getManagerTest(): ObjectManager
-            {
-                return $this->getManager(new \stdClass());
-            }
-        };
+        $managerTraitAware = new ConcreteService($managerRegistry->reveal());
 
         self::assertSame($manager->reveal(), $managerTraitAware->getManagerTest());
+    }
+}
+
+abstract class ManagerTraitAware
+{
+    use ManagerTrait;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+}
+
+final class ConcreteService extends ManagerTraitAware
+{
+    public function getManagerTest(): ObjectManager
+    {
+        return $this->getManager(new \stdClass());
     }
 }
