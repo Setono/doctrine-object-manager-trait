@@ -22,5 +22,10 @@
                 <file name="src/ORM/ORMManagerTrait.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <file name="tests/ORM/ORMManagerTraitTest.php"/>
+            </errorLevel>
+        </InvalidArgument>
     </issueHandlers>
 </psalm>

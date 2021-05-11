@@ -6,6 +6,7 @@ namespace Setono\DoctrineObjectManagerTrait\Tests\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -18,7 +19,7 @@ final class ORMManagerTraitTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_object_manager(): void
+    public function it_returns_entity_manager(): void
     {
         $manager = $this->prophesize(EntityManagerInterface::class);
         $managerRegistry = $this->prophesize(ManagerRegistry::class);
@@ -27,6 +28,58 @@ final class ORMManagerTraitTest extends TestCase
         $managerTraitAware = new ConcreteService($managerRegistry->reveal());
 
         self::assertSame($manager->reveal(), $managerTraitAware->getManagerTest());
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_if_no_manager_exists_for_class(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $managerRegistry = $this->prophesize(ManagerRegistry::class);
+        $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn(null);
+
+        $managerTraitAware = new ConcreteService($managerRegistry->reveal());
+
+        $managerTraitAware->getManagerTest();
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_if_manager_is_not_entity_manager(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $manager = $this->prophesize(ObjectManager::class);
+        $managerRegistry = $this->prophesize(ManagerRegistry::class);
+        $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager->reveal());
+
+        $managerTraitAware = new ConcreteService($managerRegistry->reveal());
+
+        $managerTraitAware->getManagerTest();
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_if_input_is_not_object_nor_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $managerRegistry = $this->prophesize(ManagerRegistry::class);
+
+        new class($managerRegistry->reveal()) {
+            use ORMManagerTrait;
+
+            public function __construct(ManagerRegistry $managerRegistry)
+            {
+                $this->managerRegistry = $managerRegistry;
+
+                $this->getManager([]);
+            }
+        };
     }
 }
 
