@@ -19,7 +19,7 @@
     <issueHandlers>
         <RedundantConditionGivenDocblockType>
             <errorLevel type="suppress">
-                <file name="src/ManagerTrait.php"/>
+                <file name="src/ORM/ORMManagerTrait.php"/>
             </errorLevel>
         </RedundantConditionGivenDocblockType>
     </issueHandlers>

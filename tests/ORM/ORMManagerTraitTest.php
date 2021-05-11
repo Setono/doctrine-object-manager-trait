@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Setono\DoctrineObjectManagerTrait\Tests;
+namespace Setono\DoctrineObjectManagerTrait\Tests\ORM;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Setono\DoctrineObjectManagerTrait\ManagerTrait;
+use Setono\DoctrineObjectManagerTrait\ORM\ORMManagerTrait;
 
-final class ManagerTraitTest extends TestCase
+final class ORMManagerTraitTest extends TestCase
 {
     use ProphecyTrait;
 
@@ -20,7 +20,7 @@ final class ManagerTraitTest extends TestCase
      */
     public function it_returns_object_manager(): void
     {
-        $manager = $this->prophesize(ObjectManager::class);
+        $manager = $this->prophesize(EntityManagerInterface::class);
         $managerRegistry = $this->prophesize(ManagerRegistry::class);
         $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager->reveal());
 
@@ -32,7 +32,7 @@ final class ManagerTraitTest extends TestCase
 
 abstract class ManagerTraitAware
 {
-    use ManagerTrait;
+    use ORMManagerTrait;
 
     public function __construct(ManagerRegistry $managerRegistry)
     {
@@ -42,7 +42,7 @@ abstract class ManagerTraitAware
 
 final class ConcreteService extends ManagerTraitAware
 {
-    public function getManagerTest(): ObjectManager
+    public function getManagerTest(): EntityManagerInterface
     {
         return $this->getManager(new \stdClass());
     }
