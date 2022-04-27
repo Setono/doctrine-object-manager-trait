@@ -24,7 +24,12 @@
         "setono/code-quality-pack": "^2.1"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "infection/extension-installer": true
+        }
     },
     "extra": {
         "branch-alias": {

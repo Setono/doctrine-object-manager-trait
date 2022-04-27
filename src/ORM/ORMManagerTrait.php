@@ -6,17 +6,21 @@ namespace Setono\DoctrineObjectManagerTrait\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use Webmozart\Assert\Assert;
 
 trait ORMManagerTrait
 {
-    /** @var array<array-key, EntityManagerInterface> */
+    /** @var array<class-string, EntityManagerInterface> */
     private array $managers = [];
+
+    /** @var array<class-string, ObjectRepository> */
+    private array $repositories = [];
 
     private ManagerRegistry $managerRegistry;
 
     /**
-     * @param string|object $obj
+     * @param class-string|object $obj
      */
     protected function getManager($obj): EntityManagerInterface
     {
@@ -37,5 +41,20 @@ trait ORMManagerTrait
         }
 
         return $this->managers[$cls];
+    }
+
+    /**
+     * @param class-string|object $obj
+     */
+    protected function getRepository($obj): ObjectRepository
+    {
+        $cls = is_object($obj) ? get_class($obj) : $obj;
+        Assert::string($cls);
+
+        if (!isset($this->repositories[$cls])) {
+            $this->repositories[$cls] = $this->getManager($cls)->getRepository($cls);
+        }
+
+        return $this->repositories[$cls];
     }
 }

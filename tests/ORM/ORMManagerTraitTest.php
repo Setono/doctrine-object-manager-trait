@@ -7,6 +7,7 @@ namespace Setono\DoctrineObjectManagerTrait\Tests\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -28,6 +29,22 @@ final class ORMManagerTraitTest extends TestCase
         $managerTraitAware = new ConcreteService($managerRegistry->reveal());
 
         self::assertSame($manager->reveal(), $managerTraitAware->getManagerTest());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_repository(): void
+    {
+        $repository = $this->prophesize(ObjectRepository::class);
+        $manager = $this->prophesize(EntityManagerInterface::class);
+        $manager->getRepository(Argument::type('string'))->willReturn($repository->reveal());
+        $managerRegistry = $this->prophesize(ManagerRegistry::class);
+        $managerRegistry->getManagerForClass(Argument::type('string'))->willReturn($manager->reveal());
+
+        $managerTraitAware = new ConcreteService($managerRegistry->reveal());
+
+        self::assertSame($repository->reveal(), $managerTraitAware->getRepositoryTest());
     }
 
     /**
@@ -98,5 +115,10 @@ final class ConcreteService extends ManagerTraitAware
     public function getManagerTest(): EntityManagerInterface
     {
         return $this->getManager(new \stdClass());
+    }
+
+    public function getRepositoryTest(): ObjectRepository
+    {
+        return $this->getRepository(new \stdClass());
     }
 }
