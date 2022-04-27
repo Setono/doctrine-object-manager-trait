@@ -1,8 +1,8 @@
 {
     "name": "setono/doctrine-object-manager-trait",
-    "type": "library",
     "description": "A very simple library that offers an Object manager trait to get the object manager for a given class",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Joachim Løvgaard",
@@ -23,19 +23,7 @@
         "roave/security-advisories": "dev-latest",
         "setono/code-quality-pack": "^2.1"
     },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "ergebnis/composer-normalize": true,
-            "dealerdirect/phpcodesniffer-composer-installer": false,
-            "infection/extension-installer": true
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.1-dev"
-        }
-    },
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Setono\\DoctrineObjectManagerTrait\\": "src/"
@@ -46,7 +34,19 @@
             "Setono\\DoctrineObjectManagerTrait\\Tests\\": "tests/"
         }
     },
-    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "infection/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1-dev"
+        }
+    },
     "scripts": {
         "analyse": "psalm",
         "check-style": "ecs check",
