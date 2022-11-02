@@ -19,7 +19,7 @@
         "infection/infection": "^0.21.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
-        "psalm/plugin-phpunit": "^0.15.1",
+        "psalm/plugin-phpunit": "^0.15.1 || ^0.18.0",
         "roave/security-advisories": "dev-latest",
         "setono/code-quality-pack": "^2.1"
     },
