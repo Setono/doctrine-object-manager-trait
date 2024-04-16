@@ -77,48 +77,6 @@ final class ORMManagerTraitTest extends TestCase
 
         $managerTraitAware->getManagerTest();
     }
-
-    /**
-     * @test
-     */
-    public function it_throws_if_input_is_not_object_nor_string(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $managerRegistry = $this->prophesize(ManagerRegistry::class);
-
-        new class($managerRegistry->reveal()) {
-            use ORMManagerTrait;
-
-            public function __construct(ManagerRegistry $managerRegistry)
-            {
-                $this->managerRegistry = $managerRegistry;
-
-                $this->getManager([]);
-            }
-        };
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_if_input_is_not_object_nor_string2(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $managerRegistry = $this->prophesize(ManagerRegistry::class);
-
-        new class($managerRegistry->reveal()) {
-            use ORMManagerTrait;
-
-            public function __construct(ManagerRegistry $managerRegistry)
-            {
-                $this->managerRegistry = $managerRegistry;
-
-                $this->getRepository([]);
-            }
-        };
-    }
 }
 
 abstract class ManagerTraitAware

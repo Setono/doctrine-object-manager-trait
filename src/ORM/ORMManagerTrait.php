@@ -20,12 +20,11 @@ trait ORMManagerTrait
     private ManagerRegistry $managerRegistry;
 
     /**
-     * @param class-string|object $obj
+     * @param object|class-string $obj
      */
-    protected function getManager($obj): EntityManagerInterface
+    protected function getManager(object|string $obj): EntityManagerInterface
     {
-        $cls = is_object($obj) ? get_class($obj) : $obj;
-        Assert::string($cls);
+        $cls = is_object($obj) ? $obj::class : $obj;
 
         if (!isset($this->managers[$cls])) {
             $manager = $this->managerRegistry->getManagerForClass($cls);
@@ -34,7 +33,7 @@ trait ORMManagerTrait
             Assert::isInstanceOf($manager, EntityManagerInterface::class, sprintf(
                 'Expected manager to be of type "%s", but got "%s"',
                 EntityManagerInterface::class,
-                get_class($manager)
+                $manager::class,
             ));
 
             $this->managers[$cls] = $manager;
@@ -44,12 +43,11 @@ trait ORMManagerTrait
     }
 
     /**
-     * @param class-string|object $obj
+     * @param object|class-string $obj
      */
-    protected function getRepository($obj): ObjectRepository
+    protected function getRepository(object|string $obj): ObjectRepository
     {
-        $cls = is_object($obj) ? get_class($obj) : $obj;
-        Assert::string($cls);
+        $cls = is_object($obj) ? $obj::class : $obj;
 
         if (!isset($this->repositories[$cls])) {
             $this->repositories[$cls] = $this->getManager($cls)->getRepository($cls);
