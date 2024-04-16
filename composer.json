@@ -16,11 +16,11 @@
     },
     "require-dev": {
         "doctrine/orm": "^2.8",
-        "infection/infection": "^0.26",
-        "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.5",
+        "infection/infection": "^0.27",
+        "phpspec/prophecy-phpunit": "^2.2",
+        "phpunit/phpunit": "^9.6",
         "psalm/plugin-phpunit": "^0.18",
-        "setono/code-quality-pack": "^2.1"
+        "setono/code-quality-pack": "^2.7"
     },
     "prefer-stable": true,
     "autoload": {
@@ -35,8 +35,8 @@
     },
     "config": {
         "allow-plugins": {
-            "ergebnis/composer-normalize": true,
             "dealerdirect/phpcodesniffer-composer-installer": false,
+            "ergebnis/composer-normalize": true,
             "infection/extension-installer": true
         },
         "sort-packages": true
